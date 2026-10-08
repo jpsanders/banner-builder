@@ -1,0 +1,83 @@
+# banner-builder config
+#
+# This file holds everything personal about your banner: the words, the colours and where the files go.
+# Keep it on your machine. `banner-builder init` writes it to ~/.config/banner-builder/banner.toml, outside any
+# repository, and `check` and `build` read it from there unless you pass --config or set BANNER_BUILDER_CONFIG.
+#
+# Only [text] lines is required. Every other value below is the default, so delete what you do not change.
+
+[text]
+# Small capitals above the headline. Leave it empty to leave the line out.
+kicker = "PLATFORM ENGINEER · OPEN TO NEW ROLES"
+
+# The headline, one string per line, drawn as large as the space allows.
+# Words between asterisks are drawn in the accent colour. To draw an asterisk, write \\* inside double quotes.
+lines = [
+  "Fewer alerts at night,",
+  "*faster* deploys by day.",
+]
+
+# The row under the rule: footer_left in the ink colour, footer_right in the accent colour and aligned right.
+# Leave both empty to leave out the rule and the row.
+footer_left = "Go · Kubernetes · Terraform"
+footer_right = "example.com"
+
+[canvas]
+# LinkedIn's banner size. The profile photo covers the bottom left, so the text starts 448 pixels in.
+width = 1584
+height = 396
+left = 448
+right = 96
+# From the top edge to the top of the first line's capitals.
+top = 77
+# The least space between the last baseline and the bottom edge. The headline shrinks to keep it.
+bottom = 24
+
+[type]
+# The headline never grows past this size, in pixels.
+max_headline = 84
+kicker_size = 20
+footer_size = 25
+# Letter spacing in ems. A negative value tightens.
+headline_tracking = -0.025
+kicker_tracking = 0.14
+
+[fonts]
+# Leave file empty for the bundled fonts: Space Grotesk for the headline, JetBrains Mono for the rest.
+# A relative path is read from the folder this config is in. A variable font is pinned to the weight given.
+display = { file = "", weight = 500 }
+mono = { file = "", weight = 400 }
+
+# Colours as #rrggbb or oklch(L C H). Each text colour needs a contrast ratio of at least 4.5 against the background,
+# the WCAG AA minimum, or nothing is built. Set only the colours you want to change.
+[themes.light]
+background = "oklch(0.973 0.008 78)"
+ink = "oklch(0.205 0.014 62)"
+soft = "oklch(0.505 0.020 66)"
+rule = "oklch(0.878 0.012 74)"
+accent = "oklch(0.545 0.128 52)"
+
+[themes.dark]
+background = "oklch(0.205 0.014 62)"
+ink = "oklch(0.955 0.008 78)"
+soft = "oklch(0.740 0.018 70)"
+rule = "oklch(0.330 0.014 62)"
+accent = "oklch(0.740 0.125 58)"
+
+# A theme with a new name needs all five colours. Add its name to [output] themes to build it.
+# [themes.forest]
+# background = "#0f2419"
+# ink = "#eef5f0"
+# soft = "#a9c2b2"
+# rule = "#2a4535"
+# accent = "#7fd69b"
+
+[output]
+# Where the files go. A relative path is read from the folder you run the command in.
+dir = "."
+# Files are named <name>-<theme>.svg, <name>-<theme>.png and <name>-<theme>@2x.png.
+name = "banner"
+themes = ["light", "dark"]
+formats = ["png", "svg"]
+# 1 writes the canvas size, 2 writes twice as many pixels each way, and so on up to 4.
+scales = [1, 2]

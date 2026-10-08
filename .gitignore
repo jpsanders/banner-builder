@@ -1,0 +1,12 @@
+# Make text search tools know that these "hidden" directories contain code
+!/.github/
+
+# Caches and build artifacts
+__pycache__
+/build
+
+# Your own banner config and output. They hold your words, so they stay on your machine.
+banner.toml
+*.local.toml
+/banner-*.png
+/banner-*.svg
