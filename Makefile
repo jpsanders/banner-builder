@@ -12,18 +12,13 @@ help:
 	@echo "    Use '-n' to do a dry run"
 	@echo "    Use '-k' to ignore failed targets and keep going"
 
-.PHONY: create-egg-base
-create-egg-base:
-	@echo
-	mkdir -p build/egg_base
-
 .PHONY: init
-init: create-egg-base
+init:
 	@echo
 	pip install -e .
 
 .PHONY: init-dev
-init-dev: create-egg-base
+init-dev:
 	@echo
 	pip install -e .[dev]
 
@@ -91,7 +86,7 @@ bandit:
 	bandit -c pyproject.toml -f custom -r ${SRC} ${TESTS}
 
 .PHONY: build
-build: clean create-egg-base
+build: clean
 	@echo
 	@echo --- Build package wheel ---
 	python -m build -o build/dist

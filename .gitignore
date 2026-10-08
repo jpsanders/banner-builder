@@ -4,6 +4,7 @@
 # Caches and build artifacts
 __pycache__
 /build
+*.egg-info
 
 # Your own banner config and output. They hold your words, so they stay on your machine.
 banner.toml
