@@ -5,10 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "banner-builder"
 authors = [
-  { name = "James Phillip Sanders", email = "jpsanders@tuta.io" }
+  { name = "James Phillip Sanders", email = "hello@jamesphillipsanders.com" }
 ]
 maintainers = [
-  { name = "James Phillip Sanders", email = "jpsanders@tuta.io" }
+  { name = "James Phillip Sanders", email = "hello@jamesphillipsanders.com" }
 ]
 description = "Build a profile banner as SVG and PNG from a config file that stays on your machine."
 readme = "README.md"
