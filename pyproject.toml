@@ -14,17 +14,16 @@ description = "Build a profile banner as SVG and PNG from a config file that sta
 readme = "README.md"
 license = "MIT AND OFL-1.1"
 license-files = ["LICENSE", "src/banner_builder/fonts/OFL-*.txt"]
-requires-python = ">=3.12"
-keywords = ["banner", "linkedin", "svg", "png", "typography", "resvg"]
+requires-python = ">=3.14"
+keywords = ["banner", "linkedin", "svg", "png", "typography", "resvg", "wcag", "mcp", "ai-agents"]
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 5 - Production/Stable",
   "Environment :: Console",
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
   "Topic :: Multimedia :: Graphics",
   "Typing :: Typed",
 ]
@@ -35,8 +34,10 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
+Homepage = "https://github.com/jpsanders/banner-builder"
 Repository = "https://github.com/jpsanders/banner-builder"
 Issues = "https://github.com/jpsanders/banner-builder/issues"
+Changelog = "https://github.com/jpsanders/banner-builder/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = [
@@ -58,12 +59,13 @@ dev = [
 banner-builder = "banner_builder.cli:main"
 
 [tool.setuptools_scm]
+fallback_version = "0.0.0"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-banner_builder = ["py.typed", "example.toml", "fonts/*.ttf", "fonts/*.txt"]
+banner_builder = ["py.typed", "example.toml", "fonts/*.ttf", "fonts/*.txt", "data/*"]
 
 [tool.mypy]
 strict = true

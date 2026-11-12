@@ -1,0 +1,14 @@
+{
+  "name": "banner-builder",
+  "description": "Build a profile banner as PNG and SVG from a config file that stays on your machine: a skill plus an MCP server with init, check and build.",
+  "version": "1.0.0",
+  "author": {
+    "name": "James Phillip Sanders",
+    "email": "hello@jamesphillipsanders.com",
+    "url": "https://jamesphillipsanders.com"
+  },
+  "homepage": "https://github.com/jpsanders/banner-builder",
+  "repository": "https://github.com/jpsanders/banner-builder",
+  "license": "MIT",
+  "keywords": ["banner", "linkedin", "svg", "png", "typography", "wcag", "mcp"]
+}

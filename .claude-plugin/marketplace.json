@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "banner-builder",
+  "description": "Profile banners as PNG and SVG from a config file that stays on your machine.",
+  "owner": {
+    "name": "James Phillip Sanders",
+    "email": "hello@jamesphillipsanders.com"
+  },
+  "plugins": [
+    {
+      "name": "banner-builder",
+      "description": "A skill and an MCP server that build a profile banner from a local config, checked for fit and contrast.",
+      "version": "1.0.0",
+      "source": "./",
+      "category": "design",
+      "homepage": "https://github.com/jpsanders/banner-builder"
+    }
+  ]
+}

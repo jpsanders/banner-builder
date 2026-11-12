@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "banner-builder": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/jpsanders/banner-builder@1.0.0", "banner-builder", "mcp"]
+    }
+  }
+}

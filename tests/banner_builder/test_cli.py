@@ -1,3 +1,4 @@
+import json
 from collections.abc import Callable
 from importlib import resources
 from pathlib import Path
@@ -116,3 +117,36 @@ def test_version(capsys: pytest.CaptureFixture[str]) -> None:
         main(["--version"])
     assert stop.value.code == 0
     assert capsys.readouterr().out.startswith("banner-builder ")
+
+
+def test_check_json(write_config: Callable[[str], Path], capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["check", "--json", "--config", str(write_config(STARTER))]) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert report["ok"] is True
+    assert report["headline_size"] == 84
+    assert report["rows"] == {"kicker": 92, "headline": [180, 271], "rule": 311, "footer": 357}
+    assert report["contrast"]["dark"] == {"ink": 15.75, "soft": 7.74, "accent": 7.53}
+
+
+def test_build_json_with_problems(write_config: Callable[[str], Path], capsys: pytest.CaptureFixture[str]) -> None:
+    path = write_config(STARTER.replace('footer_left = "Go', 'footer_left = "' + "Go · " * 30))
+    assert main(["build", "--json", "--config", str(path), "--out", "unused"]) == 1
+    result = json.loads(capsys.readouterr().out)
+    assert result["ok"] is False and result["written"] == [] and result["problems"]
+
+
+def test_json_error(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["path", "--json", "--config", str(tmp_path / "x.toml")]) == 0
+    assert json.loads(capsys.readouterr().out) == {"path": str(tmp_path / "x.toml"), "exists": False}
+    assert main(["check", "--json", "--config", str(tmp_path / "x.toml")]) == 1
+    assert json.loads(capsys.readouterr().out)["ok"] is False
+
+
+def test_guide_and_man(capsys: pytest.CaptureFixture[str], tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    assert main(["guide"]) == 0
+    assert capsys.readouterr().out.startswith("# banner-builder")
+    assert main(["man", "--raw"]) == 0
+    assert capsys.readouterr().out.startswith(".TH BANNER-BUILDER 1")
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    assert main(["man", "--install"]) == 0
+    assert (tmp_path / "man" / "man1" / "banner-builder.1").is_file()

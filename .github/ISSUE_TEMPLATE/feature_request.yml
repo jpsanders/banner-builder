@@ -1,0 +1,16 @@
+---
+name: Feature request
+description: A layout, a check or an output format banner-builder should have
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you cannot draw today, and for which platform's banner or header.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would help

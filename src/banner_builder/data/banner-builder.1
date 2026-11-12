@@ -1,0 +1,176 @@
+.TH BANNER-BUILDER 1 "" "banner-builder" "User Commands"
+.SH NAME
+banner-builder \- build a profile banner as SVG and PNG from a config file that stays on your machine
+.SH SYNOPSIS
+.RS 4
+.nf
+banner\-builder init [\-\-force] [\-\-config PATH] [\-\-json]
+banner\-builder check [\-\-config PATH] [\-\-json]
+banner\-builder build [\-\-out DIR] [\-\-theme NAME]... [\-\-format png|svg]... [\-\-scale 1\-4]... [\-\-config PATH] [\-\-json]
+banner\-builder path [\-\-config PATH] [\-\-json]
+banner\-builder guide
+banner\-builder man [\-\-install | \-\-raw]
+banner\-builder mcp
+banner\-builder \-\-version
+.fi
+.RE
+.SH DESCRIPTION
+.PP
+banner-builder draws a profile banner, LinkedIn's 1584 by 396 by default, from one TOML file. The file holds the words, the colours and where the output goes, and it lives in your home folder rather than in any repository, so the banner text never ends up in a commit. The fonts ship with the package and resvg draws the PNG, so a build needs no browser and makes no network request.
+.PP
+Every build is checked first. The text must fit between the margins, every glyph must exist in its font, and every text colour must reach 4.5:1 contrast against the background in every theme, the WCAG AA minimum. When a check fails nothing is written, and the problem says what to change.
+.SH COMMANDS
+.TP
+\fBinit\fR
+Write the starter config, every key documented next to its default. Refuses to replace a config.
+.TP
+\fBcheck\fR
+Test the config, the layout and the contrast; print the sizes, rows and ratios; write nothing.
+.TP
+\fBbuild\fR
+Run the same checks, then write the SVG and PNG files for each theme and scale.
+.TP
+\fBpath\fR
+Print where the config is read from, and say if it does not exist yet.
+.TP
+\fBguide\fR
+Print this manual as Markdown, for people and agents.
+.TP
+\fBman\fR
+Show this manual as a man page. \fB\-\-install\fR puts it where \fBman banner\-builder\fR finds it.
+.TP
+\fBmcp\fR
+Serve init, check, build and path to AI agents over the Model Context Protocol, on stdio.
+.SH OPTIONS
+.TP
+\fB\-\-config PATH\fR
+Read this config instead of the default.
+.TP
+\fB\-\-json\fR
+Print one JSON object instead of text. Exit codes stay the same.
+.TP
+\fB\-\-force\fR
+With \fBinit\fR: replace an existing config with the starter.
+.TP
+\fB\-\-out DIR\fR
+With \fBbuild\fR: write into this folder instead of the config's \fB[output] dir\fR.
+.TP
+\fB\-\-theme NAME\fR
+With \fBbuild\fR: build only this theme. Repeat for more.
+.TP
+\fB\-\-format png\fR
+With \fBbuild\fR: write only this format, \fBpng\fR or \fBsvg\fR. Repeat for both.
+.TP
+\fB\-\-scale N\fR
+With \fBbuild\fR: write only this PNG scale, 1 to 4. Repeat for more.
+.TP
+\fB\-\-install\fR
+With \fBman\fR: install the man page into the per user man folder.
+.TP
+\fB\-\-raw\fR
+With \fBman\fR: print the roff source instead of opening a pager.
+.TP
+\fB\-\-version\fR
+Print the version and exit.
+.SH THE CONFIG
+.PP
+Only \fB[text] lines\fR is required. \fBinit\fR writes a starter that documents every key next to its default.
+.SS [text]
+.IP \(bu 2
+\fBkicker\fR: small capitals above the headline; empty leaves the row out.
+.IP \(bu 2
+\fBlines\fR: the headline, one string per line, drawn as large as the space allows. Words between asterisks are drawn
+.PP
+in the accent colour; write \fB\e\e*\fR inside double quotes for a literal asterisk.
+.IP \(bu 2
+\fBfooter_left\fR, \fBfooter_right\fR: the row under the rule, left in the ink colour and right in the accent colour.
+.PP
+Leave both empty to drop the rule and the row.
+.SS [canvas]
+.PP
+\fBwidth\fR 1584 and \fBheight\fR 396 by default. \fBleft\fR 448 keeps the text clear of LinkedIn's profile photo, \fBright\fR 96 is the right margin, \fBtop\fR 77 runs from the top edge to the top of the first capitals, and \fBbottom\fR 24 is the least space under the last baseline; the headline shrinks to keep it, down to 24 pixels.
+.SS [type]
+.PP
+\fBmax_headline\fR 84 caps the headline size. \fBkicker_size\fR 20 and \fBfooter_size\fR 25 set the small rows. \fBheadline_tracking\fR -0.025 and \fBkicker_tracking\fR 0.14 set letter spacing in ems.
+.SS [fonts]
+.PP
+\fBdisplay\fR draws the headline and \fBmono\fR the rest, each as \fB{ file = "", weight = N }\fR. An empty file means the bundled font: Space Grotesk and JetBrains Mono, both under the SIL Open Font License. A relative path is read from the config's folder. A variable font is pinned to the weight given.
+.SS [themes.NAME]
+.PP
+Five colours per theme: \fBbackground\fR, \fBink\fR, \fBsoft\fR, \fBrule\fR and \fBaccent\fR, as \fB#rrggbb\fR or \fBoklch(L C H)\fR. The light and dark themes exist already, so set only what you change. A new theme needs all five.
+.SS [output]
+.PP
+\fBdir\fR "." (relative to where you run the command), \fBname\fR "banner", \fBthemes\fR light and dark, \fBformats\fR png and svg, \fBscales\fR 1 and 2. Files are named \fB<name>\-<theme>.svg\fR, \fB<name>\-<theme>.png\fR and \fB<name>\-<theme>@2x.png\fR.
+.SH CHECKS
+.TP
+Width
+The kicker and the footer fit between the margins. The headline is sized to fit.
+.TP
+Height
+The last row stays \fBbottom\fR pixels clear of the bottom edge.
+.TP
+Glyphs
+Each font has every character it is asked to draw.
+.TP
+Contrast
+Ink, soft and accent reach 4.5:1 against the background in every theme built.
+.SH JSON OUTPUT
+.PP
+\fBcheck \-\-json\fR prints \fBok\fR, \fBconfig\fR, \fBproblems\fR, \fBwarnings\fR and \fBcanvas\fR, and when the layout fits also \fBheadline_size\fR, \fBrows\fR (the kicker, headline, rule and footer baselines) and \fBcontrast\fR (each theme's ratios):
+.RS 4
+.nf
+{"ok": true, "config": "/home/me/.config/banner\-builder/banner.toml", "problems": [], "warnings": [],
+ "canvas": {"width": 1584, "height": 396, "text_from": 448, "text_to": 1488}, "headline_size": 84,
+ "rows": {"kicker": 92, "headline": [180, 271], "rule": 311, "footer": 357},
+ "contrast": {"light": {"ink": 16.61, "soft": 5.44, "accent": 4.79},
+              "dark": {"ink": 15.75, "soft": 7.74, "accent": 7.53}}}
+.fi
+.RE
+.PP
+\fBbuild \-\-json\fR prints \fBok\fR, \fBwritten\fR (the paths) and \fBproblems\fR. \fBinit \-\-json\fR prints \fBok\fR, \fBwrote\fR and \fBwarnings\fR. \fBpath \-\-json\fR prints \fBpath\fR and \fBexists\fR. An error prints \fB{"ok": false, "error": "..."}\fR.
+.SH MCP SERVER
+.PP
+\fBbanner\-builder mcp\fR speaks JSON-RPC 2.0 over stdio with no dependencies. Its tools are \fBconfig_path\fR, \fBinit\fR, \fBcheck\fR and \fBbuild\fR, with the same arguments and results as the JSON output. \fBcheck\fR and \fBconfig_path\fR are marked read only; \fBinit\fR is marked destructive because \fBforce\fR replaces a config. Register it with any MCP client:
+.RS 4
+.nf
+{"mcpServers": {"banner\-builder": {"command": "banner\-builder", "args": ["mcp"]}}}
+.fi
+.RE
+.SH ENVIRONMENT
+.PP
+\fBBANNER_BUILDER_CONFIG\fR points at another config file. \fBXDG_CONFIG_HOME\fR moves the default config folder. \fBXDG_DATA_HOME\fR moves the man folder \fBman \-\-install\fR writes to.
+.SH FILES
+.PP
+\fB~/.config/banner\-builder/banner.toml\fR is the default config. \fB~/.local/share/man/man1/banner\-builder.1\fR is where \fBman \-\-install\fR puts the man page.
+.SH EXIT STATUS
+.PP
+0 on success. 1 when a check failed or the config is missing or invalid; nothing was written. 2 when the arguments are wrong.
+.SH EXAMPLES
+.PP
+Start, check and build:
+.RS 4
+.nf
+banner\-builder init
+banner\-builder check
+banner\-builder build
+.fi
+.RE
+.PP
+Write only the file to upload to LinkedIn:
+.RS 4
+.nf
+banner\-builder build \-\-theme light \-\-format png \-\-scale 2
+.fi
+.RE
+.SH FOR AGENTS
+.PP
+Use \fB\-\-json\fR or the MCP tools and read \fBproblems\fR and \fBwarnings\fR; they name what to change. The config holds the user's own words: edit it where \fBpath\fR says it is, never copy it into a repository, and do not paste it anywhere public. A good loop is: \fBpath\fR, \fBinit\fR if missing, edit the TOML, \fBcheck\fR until \fBok\fR is true, then \fBbuild\fR.
+.SH PRIVACY
+.PP
+The config is read from your home folder. \fBinit\fR and \fBcheck\fR warn when it sits inside a git repository. The tool makes no network requests.
+.SH SEE ALSO
+.PP
+https://github.com/jpsanders/banner-builder
+.SH AUTHOR
+.PP
+James Phillip Sanders, https://jamesphillipsanders.com

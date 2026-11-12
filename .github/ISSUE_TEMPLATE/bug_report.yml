@@ -1,0 +1,25 @@
+---
+name: Bug report
+description: A banner that came out wrong, a check that should have passed, or a command that failed
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The command you ran, what it did, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: banner-builder check --json
+      description: Its output. Replace your own words with placeholders before you paste it.
+      render: json
+  - type: input
+    id: version
+    attributes:
+      label: Versions
+      placeholder: banner-builder 1.0.0, Python 3.15.2, Ubuntu 26.04
+    validations:
+      required: true

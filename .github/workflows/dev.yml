@@ -1,5 +1,5 @@
 ---
-name: banner-builder-ci
+name: ci
 
 on:
   push:
@@ -14,17 +14,24 @@ on:
 jobs:
   lint:
     uses: "./.github/workflows/python-checks.yml"
+    with:
+      python-version: "3.15"
+
   test:
     needs: lint
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.12", "3.13", "3.14"]
+        os: ["ubuntu-latest", "macos-latest"]
+        python-version: ["3.14", "3.15"]
     uses: "./.github/workflows/python-tests.yml"
     with:
+      os: ${{ matrix.os }}
       python-version: ${{ matrix.python-version }}
-  # Proves a plain install works and ships the fonts and the starter config, with no make step first.
+
+  # Proves a plain install works and ships the fonts, the starter config and the manual, with no make step first.
   package:
-    needs: lint
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout code"
@@ -35,21 +42,27 @@ jobs:
       - name: "Set up Python"
         uses: actions/setup-python@v7
         with:
-          python-version: "3.12"
+          python-version: "3.15"
 
       - name: "Install from the clean checkout into a new environment, the way a user would"
         run: |
           python -m venv "$RUNNER_TEMP/venv"
           "$RUNNER_TEMP/venv/bin/pip" install .
 
-      - name: "Write the starter config, check it and build from it"
+      - name: "Write the starter config, check it, build from it, and ask the MCP server"
         working-directory: ${{ runner.temp }}
         run: |
           export PATH="$RUNNER_TEMP/venv/bin:$PATH"
           export BANNER_BUILDER_CONFIG="$RUNNER_TEMP/config/banner.toml"
           banner-builder init
-          banner-builder check
+          banner-builder check --json
           banner-builder build --out out
           ls -l out
           test -s out/banner-light@2x.png
           test -s out/banner-dark.svg
+          banner-builder guide | head -3
+          banner-builder man --raw | head -1
+          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25"}}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"check","arguments":{}}}' \
+            | banner-builder mcp | tee mcp.out
+          grep -q '"isError": false' mcp.out
