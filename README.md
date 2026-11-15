@@ -1,20 +1,21 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/banner-dark.png">
-    <img alt="banner-builder: profile banners from a config that stays yours" src="docs/images/banner-light.png" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/jpsanders/banner-builder/main/docs/images/banner-dark.png">
+    <img alt="banner-builder: profile banners from a config that stays yours" src="https://raw.githubusercontent.com/jpsanders/banner-builder/main/docs/images/banner-light.png" width="100%">
   </picture>
 </p>
 
 <p align="center">
   <a href="https://github.com/jpsanders/banner-builder/actions/workflows/dev.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/jpsanders/banner-builder/dev.yml?branch=main&label=CI&logo=github"></a>
-  <a href="https://github.com/jpsanders/banner-builder/releases/latest"><img alt="Release 1.0.0" src="https://img.shields.io/badge/release-1.0.0-a95719"></a>
+  <a href="https://github.com/jpsanders/banner-builder/releases/latest"><img alt="Release 1.0.1" src="https://img.shields.io/badge/release-1.0.1-a95719"></a>
+  <a href="https://pypi.org/project/banner-builder/"><img alt="PyPI banner-builder" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpypi.org%2Fpypi%2Fbanner-builder%2Fjson&query=%24.info.version&label=pypi&logo=pypi&logoColor=white&color=a95719"></a>
   <a href="https://www.python.org/downloads/"><img alt="Python 3.14 and 3.15" src="https://img.shields.io/badge/python-3.14%20%7C%203.15-3776AB?logo=python&logoColor=white"></a>
-  <a href="#with-an-ai-agent"><img alt="MCP server" src="https://img.shields.io/badge/MCP-server-a95719"></a>
-  <a href="#with-an-ai-agent"><img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude%20Code-plugin-a95719"></a>
+  <a href="https://github.com/jpsanders/banner-builder#with-an-ai-agent"><img alt="MCP server" src="https://img.shields.io/badge/MCP-server-a95719"></a>
+  <a href="https://github.com/jpsanders/banner-builder#with-an-ai-agent"><img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude%20Code-plugin-a95719"></a>
   <img alt="WCAG AA contrast" src="https://img.shields.io/badge/contrast-WCAG%20AA-2ea44f">
   <img alt="No network" src="https://img.shields.io/badge/network-none-2ea44f">
   <a href="https://mypy-lang.org/"><img alt="mypy strict" src="https://img.shields.io/badge/mypy-strict-2a6db2"></a>
-  <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-blue"></a>
+  <a href="https://github.com/jpsanders/banner-builder/blob/main/LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-blue"></a>
   <a href="https://github.com/jpsanders/banner-builder/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/jpsanders/banner-builder?style=flat&logo=github&color=a95719"></a>
 </p>
 
@@ -23,13 +24,13 @@ default, any size you set. Every build checks that the text fits, that each font
 colour reaches WCAG AA contrast, before a single file is written.
 
 ```sh
-uv tool install git+https://github.com/jpsanders/banner-builder@1.0.0
+uv tool install banner-builder
 banner-builder init && banner-builder check && banner-builder build
 ```
 
 <p align="center">
-  <img alt='A light banner: "Fewer alerts at night, faster deploys by day."' src="docs/examples/banner-light.png" width="100%">
-  <img alt="The same banner in the dark theme" src="docs/examples/banner-dark.png" width="100%">
+  <img alt='A light banner: "Fewer alerts at night, faster deploys by day."' src="https://raw.githubusercontent.com/jpsanders/banner-builder/main/docs/examples/banner-light.png" width="100%">
+  <img alt="The same banner in the dark theme" src="https://raw.githubusercontent.com/jpsanders/banner-builder/main/docs/examples/banner-dark.png" width="100%">
 </p>
 
 Your words, colours and output folder live in one TOML file at `~/.config/banner-builder/banner.toml`, outside any
@@ -41,11 +42,11 @@ the package and resvg draws the PNG, so a build needs no browser and sends nothi
 It needs Python 3.14 or later; uv fetches one if you have none.
 
 ```sh
-uv tool install git+https://github.com/jpsanders/banner-builder@1.0.0
+uv tool install banner-builder
 ```
 
-`pipx install git+https://github.com/jpsanders/banner-builder@1.0.0` works too. To try it without installing:
-`uvx --from git+https://github.com/jpsanders/banner-builder@1.0.0 banner-builder --help`.
+`pip install banner-builder` and `pipx install banner-builder` work too. To try it without installing:
+`uvx banner-builder --help`.
 
 ## Use
 
@@ -86,7 +87,7 @@ Any other MCP client takes the server directly:
 {"mcpServers": {"banner-builder": {"command": "banner-builder", "args": ["mcp"]}}}
 ```
 
-The skill is plain Markdown in [`skills/banner-builder/SKILL.md`](skills/banner-builder/SKILL.md), so Codex, OpenCode
+The skill is plain Markdown in [`skills/banner-builder/SKILL.md`](https://github.com/jpsanders/banner-builder/blob/main/skills/banner-builder/SKILL.md), so Codex, OpenCode
 and other agents that read skills can use it as it is. `check` and `config_path` are marked read only; `init` is marked
 destructive, because with `force` it replaces a config.
 
@@ -134,7 +135,7 @@ footer_right = "example.com"
 
 `banner-builder guide` prints the full manual, every command, option and config key, written for people and agents
 alike. `banner-builder man` shows it as a man page, and `banner-builder man --install` makes `man banner-builder`
-work. The source is [`docs/MANUAL.md`](docs/MANUAL.md).
+work. The source is [`docs/MANUAL.md`](https://github.com/jpsanders/banner-builder/blob/main/docs/MANUAL.md).
 
 ## Layout
 
@@ -168,7 +169,7 @@ make checks
 `make checks` runs isort, black, editorconfig-checker, darglint, flake8, mypy in strict mode, bandit, the man page
 check and pytest. CI runs the tests on Python 3.14 and 3.15 on Linux and macOS, then installs the built package on its
 own, builds a banner from the starter config and asks the MCP server to check it. `make examples` redraws the images
-at the top of this page. See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md).
+at the top of this page. See [CONTRIBUTING.md](https://github.com/jpsanders/banner-builder/blob/main/CONTRIBUTING.md) and [AGENTS.md](https://github.com/jpsanders/banner-builder/blob/main/AGENTS.md).
 
 ## How it was made
 

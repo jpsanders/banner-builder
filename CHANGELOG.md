@@ -2,6 +2,14 @@
 
 Versions follow [semantic versioning](https://semver.org). Tags carry the bare version, such as `1.0.0`.
 
+## 1.0.1 (2026-11-15)
+
+- On PyPI: `uv tool install banner-builder`, `pipx install banner-builder` or `pip install banner-builder`, and
+  `uvx banner-builder` with nothing installed first. Each GitHub release now publishes itself to PyPI through
+  trusted publishing; no token is stored.
+- The Claude Code plugin starts the MCP server from PyPI through uvx.
+- The README's images and links are absolute, so the page reads the same on PyPI as on GitHub.
+
 ## 1.0.0 (2026-11-12)
 
 - Every command takes `--json` and prints one object: the layout, the rows, each theme's contrast ratios, problems

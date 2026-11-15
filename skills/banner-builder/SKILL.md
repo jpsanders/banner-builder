@@ -13,8 +13,8 @@ contrast (WCAG AA, 4.5:1) before it writes anything, and it makes no network req
 If `banner-builder` is not on the PATH, install it, or run it through uvx without installing:
 
 ```sh
-uv tool install git+https://github.com/jpsanders/banner-builder@1.0.0
-uvx --from git+https://github.com/jpsanders/banner-builder@1.0.0 banner-builder --version
+uv tool install banner-builder
+uvx banner-builder --version
 ```
 
 When this skill came with the Claude Code plugin, the `banner-builder` MCP server is already registered and its tools

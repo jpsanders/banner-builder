@@ -3,7 +3,7 @@
 > Build a profile banner (LinkedIn's 1584 by 396 by default) as SVG and PNG from a TOML config that stays in the
 > user's home folder. Checks fit, glyphs and WCAG AA contrast before writing anything. No browser, no network.
 
-Install: `uv tool install git+https://github.com/jpsanders/banner-builder@1.0.0`. Use: `banner-builder init`, edit
+Install from PyPI: `uv tool install banner-builder`. Use: `banner-builder init`, edit
 `~/.config/banner-builder/banner.toml`, `banner-builder check`, `banner-builder build`. Every command takes `--json`.
 `banner-builder mcp` serves `config_path`, `init`, `check` and `build` over MCP on stdio.
 
