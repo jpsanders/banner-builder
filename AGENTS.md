@@ -9,6 +9,7 @@ Instructions for AI coding agents working on banner-builder itself. To use the t
 make init-dev     # install the package and the development tools into the active environment
 make format       # apply black and isort
 make checks       # every check CI runs, in CI's order; run it before you say a change is done
+make ruru         # ruru reviews your branch against main: tamper audit, fail first, mutants (in checks)
 make man          # rebuild the man page and the packaged manual after editing docs/MANUAL.md
 make examples     # redraw docs/examples from the starter config
 ```
